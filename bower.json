@@ -1,0 +1,9 @@
+{
+  "name": "swiper-slider",
+  "private": true,
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5",
+    "swiper": "~3.0.4"
+  },
+  "version": "0.0.1"
+}

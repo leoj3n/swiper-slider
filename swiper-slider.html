@@ -1,0 +1,97 @@
+<!--
+`swiper-slider` is an image slider.
+Example:
+
+    <swiper-slider></swiper-slider>
+
+@element swiper-slider
+@status unstable
+-->
+
+<link href="../polymer/polymer.html" rel="import">
+
+<script src="../swiper/dist/js/swiper.min.js"></script>
+
+<polymer-element name="swiper-slider">
+
+  <template attributes="next prev">
+
+    <link href="../swiper/dist/css/swiper.min.css" rel="stylesheet">
+
+    <style>
+
+      :host { }
+
+      ::content * { }
+
+      .swiper-container {
+        width: 500px;
+        height: 300px;
+        margin: 20px auto;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+    </style>
+
+    <div class="swiper-container" id="swiper">
+      <div class="swiper-wrapper" id="wrapper">
+        <content id="content"></content>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+      domReady: function() {
+        var swiper = new Swiper(this.$.swiper);
+      },
+      attached: function() {
+        var nodes = this.$.content.getDistributedNodes(),
+          slides = '',
+          opts = '',
+          nextEl = document.createElement('div'),
+          prevEl = document.createElement('div');
+
+        for ( var i = 0; i < nodes.length; i++ ) {
+          if ( 'innerHTML' in nodes[i] ) {
+            slides += '<div class="swiper-slide">' + nodes[i].innerHTML + '</div>';
+          }
+        }
+
+        this.injectBoundHTML(slides, this.$.wrapper);
+
+        nextEl.className = 'swiper-button-next';
+        if ( typeof this.getAttribute('next') !== null ) {
+          this.$.swiper.appendChild( nextEl );
+        }
+
+        prevEl.className = 'swiper-button-prev';
+        if ( typeof this.getAttribute('prev') !== null ) {
+          this.$.swiper.appendChild( prevEl );
+        }
+      }
+    });
+  </script>
+
+</polymer-element>
+
