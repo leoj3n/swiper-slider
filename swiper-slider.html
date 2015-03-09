@@ -14,9 +14,9 @@ Example:
 
 <polymer-element name="swiper-slider">
 
-  <template attributes="next prev">
+  <template attributes="next prev scrollbar pagination">
 
-    <link href="../swiper/dist/css/swiper.min.css" rel="stylesheet">
+    <link href="../swiper/dist/css/swiper.css" rel="stylesheet">
 
     <style>
 
@@ -70,7 +70,9 @@ Example:
           slides = '',
           opts = '',
           nextEl = document.createElement('div'),
-          prevEl = document.createElement('div');
+          prevEl = document.createElement('div'),
+          scrollbarEl = document.createElement('div'),
+          paginationEl = document.createElement('div');
 
         for ( var i = 0; i < nodes.length; i++ ) {
           if ( 'innerHTML' in nodes[i] ) {
@@ -81,13 +83,25 @@ Example:
         this.injectBoundHTML(slides, this.$.wrapper);
 
         nextEl.className = 'swiper-button-next';
-        if ( typeof this.getAttribute('next') !== null ) {
+        if ( typeof this.getAttribute('next') !== 'object' ) {
           this.$.swiper.appendChild( nextEl );
         }
 
         prevEl.className = 'swiper-button-prev';
-        if ( typeof this.getAttribute('prev') !== null ) {
+        if ( typeof this.getAttribute('prev') !== 'object' ) {
           this.$.swiper.appendChild( prevEl );
+        }
+
+        console.log( typeof this.getAttribute('scrollbar') );
+
+        scrollbarEl.className = 'swiper-scrollbar';
+        if ( typeof this.getAttribute('scrollbar') !== 'object' ) {
+          this.$.swiper.appendChild( scrollbarEl );
+        }
+
+        paginationEl.className = 'swiper-pagination';
+        if ( typeof this.getAttribute('pagination') !== 'object' ) {
+          this.$.swiper.appendChild( paginationEl );
         }
       }
     });
