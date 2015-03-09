@@ -50,6 +50,11 @@ Example:
         align-items: center;
       }
 
+      /*
+       * @TODO broken data:image inlines
+       * See https://github.com/Polymer/polymer/issues/1276
+       */
+
     </style>
 
     <div class="swiper-container" id="swiper">
@@ -62,46 +67,47 @@ Example:
 
   <script>
     Polymer({
+      ready: function() {
+        this.nextEl = document.createElement('div');
+        this.prevEl = document.createElement('div');
+        this.scrollbarEl = document.createElement('div'),
+        this.paginationEl = document.createElement('div');
+        this.nextEl.className = 'swiper-button-next';
+        this.prevEl.className = 'swiper-button-prev';
+        this.scrollbarEl.className = 'swiper-scrollbar';
+        this.paginationEl.className = 'swiper-pagination';
+      },
       domReady: function() {
-        var swiper = new Swiper(this.$.swiper);
+        var swiper = new Swiper( this.$.swiper, {
+          nextButton: this.nextEl,
+          prevButton: this.prevEl,
+          spaceBetween: 30
+        });
       },
       attached: function() {
         var nodes = this.$.content.getDistributedNodes(),
           slides = '',
-          opts = '',
-          nextEl = document.createElement('div'),
-          prevEl = document.createElement('div'),
-          scrollbarEl = document.createElement('div'),
-          paginationEl = document.createElement('div');
+          opts = '';
 
         for ( var i = 0; i < nodes.length; i++ ) {
-          if ( 'innerHTML' in nodes[i] ) {
-            slides += '<div class="swiper-slide">' + nodes[i].innerHTML + '</div>';
+          if ( 'innerHTML' in nodes[ i ] ) {
+            slides += '<div class="swiper-slide">' + nodes[ i ].innerHTML + '</div>';
           }
         }
 
-        this.injectBoundHTML(slides, this.$.wrapper);
+        this.injectBoundHTML( slides, this.$.wrapper );
 
-        nextEl.className = 'swiper-button-next';
         if ( typeof this.getAttribute('next') !== 'object' ) {
-          this.$.swiper.appendChild( nextEl );
+          this.$.swiper.appendChild( this.nextEl );
         }
-
-        prevEl.className = 'swiper-button-prev';
         if ( typeof this.getAttribute('prev') !== 'object' ) {
-          this.$.swiper.appendChild( prevEl );
+          this.$.swiper.appendChild( this.prevEl );
         }
-
-        console.log( typeof this.getAttribute('scrollbar') );
-
-        scrollbarEl.className = 'swiper-scrollbar';
         if ( typeof this.getAttribute('scrollbar') !== 'object' ) {
-          this.$.swiper.appendChild( scrollbarEl );
+          this.$.swiper.appendChild(this.scrollbarEl);
         }
-
-        paginationEl.className = 'swiper-pagination';
         if ( typeof this.getAttribute('pagination') !== 'object' ) {
-          this.$.swiper.appendChild( paginationEl );
+          this.$.swiper.appendChild(this.paginationEl);
         }
       }
     });
