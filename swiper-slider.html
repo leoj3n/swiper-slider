@@ -2,10 +2,15 @@
 `swiper-slider` is an image slider.
 Example:
 
-    <swiper-slider></swiper-slider>
+    <swiper-slider next prev>
+      <slide>NO. ONE</slide>
+      <slide>ITEM TWO</slide>
+      <slide background="http://lorempixel.com/800/600">THE THIRD</slide>
+    </swiper-slider>
 
 @element swiper-slider
 @status unstable
+@homepage http://github.com/leoj3n/swiper-slider
 -->
 
 <link href="../polymer/polymer.html" rel="import">
@@ -16,12 +21,12 @@ Example:
 
   <template attributes="next prev scrollbar pagination">
 
-    <link href="../swiper/dist/css/swiper.css" rel="stylesheet">
+    <link href="../swiper/dist/css/swiper.min.css" rel="stylesheet">
 
     <style>
 
       /*
-       * @TODO broken data:image inlines
+       * @TODO(leoj3n): broken data:image inlines
        * blocked by https://github.com/Polymer/polymer/issues/1276
        */
 
