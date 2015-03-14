@@ -20,9 +20,47 @@ Example:
 
     <style>
 
-      :host { }
+      /*
+       * @TODO broken data:image inlines
+       * blocked by https://github.com/Polymer/polymer/issues/1276
+       */
 
-      ::content * { }
+      .swiper-button-prev,
+      .swiper-container-rtl .swiper-button-next {
+        background-image: url("images/prev.svg");
+        left: 10px;
+        right: auto;
+      }
+      .swiper-button-prev.swiper-button-black,
+      .swiper-container-rtl .swiper-button-next.swiper-button-black {
+        background-image: url("images/prev_black.svg");
+      }
+      .swiper-button-prev.swiper-button-white,
+      .swiper-container-rtl .swiper-button-next.swiper-button-white {
+        background-image: url("images/prev_white.svg");
+      }
+      .swiper-button-next,
+      .swiper-container-rtl .swiper-button-prev {
+        background-image: url("images/next.svg");
+        right: 10px;
+        left: auto;
+      }
+      .swiper-button-next.swiper-button-black,
+      .swiper-container-rtl .swiper-button-prev.swiper-button-black {
+        background-image: url("images/next_black.svg");
+      }
+      .swiper-button-next.swiper-button-white,
+      .swiper-container-rtl .swiper-button-prev.swiper-button-white {
+        background-image: url("images/next_white.svg");
+      }
+      .swiper-lazy-preloader:after {
+        background-image: url("images/preloader.svg");
+      }
+      .swiper-lazy-preloader-white:after {
+        background-image: url("images/preloader_white.svg");
+      }
+
+      /* end @TODO */
 
       .swiper-container {
         width: 500px;
@@ -50,11 +88,6 @@ Example:
         align-items: center;
       }
 
-      /*
-       * @TODO broken data:image inlines
-       * See https://github.com/Polymer/polymer/issues/1276
-       */
-
     </style>
 
     <div class="swiper-container" id="swiper">
@@ -66,6 +99,7 @@ Example:
   </template>
 
   <script>
+
     Polymer({
       ready: function() {
         this.nextEl = document.createElement('div');
@@ -76,6 +110,7 @@ Example:
         this.prevEl.className = 'swiper-button-prev';
         this.scrollbarEl.className = 'swiper-scrollbar';
         this.paginationEl.className = 'swiper-pagination';
+        this.slides = this.querySelectorAll("slide");
       },
       domReady: function() {
         var swiper = new Swiper( this.$.swiper, {
@@ -85,32 +120,48 @@ Example:
         });
       },
       attached: function() {
-        var nodes = this.$.content.getDistributedNodes(),
-          slides = '',
-          opts = '';
+        var i = 0,
+          result = '';
 
-        for ( var i = 0; i < nodes.length; i++ ) {
-          if ( 'innerHTML' in nodes[ i ] ) {
-            slides += '<div class="swiper-slide">' + nodes[ i ].innerHTML + '</div>';
+        for ( ; i < this.slides.length; i++ ) {
+          var slide = this.slides[ i ],
+            hasHTML = ( slide.innerHTML !== '' ),
+            hasBackground = slide.hasAttribute('background');
+
+          if ( hasHTML || hasBackground ) {
+            result += '<div class="swiper-slide"';
+
+            if ( hasBackground ) {
+              result += ' style="background-image:url(' + slide.getAttribute('background') + ');"';
+            }
+
+            result += '>';
+
+            if ( hasHTML ) {
+              result += slide.innerHTML;
+            }
+
+            result += '</div>';
           }
         }
 
-        this.injectBoundHTML( slides, this.$.wrapper );
+        this.injectBoundHTML( result, this.$.wrapper );
 
-        if ( typeof this.getAttribute('next') !== 'object' ) {
-          this.$.swiper.appendChild( this.nextEl );
+        if ( this.hasAttribute('next') ) {
+          this.$.swiper.appendChild(this.nextEl);
         }
-        if ( typeof this.getAttribute('prev') !== 'object' ) {
-          this.$.swiper.appendChild( this.prevEl );
+        if ( this.hasAttribute('prev') ) {
+          this.$.swiper.appendChild(this.prevEl);
         }
-        if ( typeof this.getAttribute('scrollbar') !== 'object' ) {
+        if ( this.hasAttribute('scrollbar') ) {
           this.$.swiper.appendChild(this.scrollbarEl);
         }
-        if ( typeof this.getAttribute('pagination') !== 'object' ) {
+        if ( this.hasAttribute('pagination') ) {
           this.$.swiper.appendChild(this.paginationEl);
         }
       }
     });
+
   </script>
 
 </polymer-element>
