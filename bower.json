@@ -1,9 +1,28 @@
 {
   "name": "swiper-slider",
-  "private": true,
+  "version": "0.0.0",
+  "authors": [
+    "Joel Kuzmarski <leoj3n+polymer@gmail.com>"
+  ],
+  "description": "Slider based on Swiper.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "swiper",
+    "slider"
+  ],
+  "main": "swiper-slider.html",
+  "license": "MIT",
+  "homepage": "https://github.com/leoj3n/swiper-slider",
+  "ignore": [
+    "/.*",
+    "/tests/"
+  ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.5",
-    "swiper": "~3.0.4"
+    "polymer": "Polymer/polymer#^0.5.4"
   },
-  "version": "0.0.1"
+  "devDependencies": {
+    "web-component-tester": "*"
+  }
 }
