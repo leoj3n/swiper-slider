@@ -17,10 +17,13 @@
   "homepage": "https://github.com/leoj3n/swiper-slider",
   "ignore": [
     "/.*",
-    "/tests/"
+    "/tests/",
+    "/demo/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^0.5.4"
+    "webcomponentsjs": "webcomponents/webcomponentsjs#master",
+    "polymer": "Polymer/polymer#0.8-preview",
+    "core-component-page": "Polymer/core-component-page#master"
   },
   "devDependencies": {
     "web-component-tester": "*"

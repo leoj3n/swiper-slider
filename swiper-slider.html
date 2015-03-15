@@ -12,6 +12,7 @@
     </swiper-slider>
 
 @element swiper-slider
+@group Objektive Elements
 @blurb Element providing a slider based on Swiper.
 @status alpha
 @homepage http://leoj3n.github.com/swiper-slider
@@ -19,83 +20,83 @@
 
 <script src="../swiper/dist/js/swiper.min.js"></script>
 
-<polymer-element name="swiper-slider">
+<dom-module id="swiper-slider">
 
-  <template attributes="next prev scrollbar pagination">
+  <link href="../swiper/dist/css/swiper.min.css" rel="stylesheet">
 
-    <link href="../swiper/dist/css/swiper.min.css" rel="stylesheet">
+  <style>
 
-    <style>
+    /*
+     * @TODO(leoj3n): broken data:image inlines
+     * blocked by https://github.com/Polymer/polymer/issues/1276
+     */
 
-      /*
-       * @TODO(leoj3n): broken data:image inlines
-       * blocked by https://github.com/Polymer/polymer/issues/1276
-       */
+    .swiper-button-prev,
+    .swiper-container-rtl .swiper-button-next {
+      background-image: url("images/prev.svg");
+      left: 10px;
+      right: auto;
+    }
+    .swiper-button-prev.swiper-button-black,
+    .swiper-container-rtl .swiper-button-next.swiper-button-black {
+      background-image: url("images/prev_black.svg");
+    }
+    .swiper-button-prev.swiper-button-white,
+    .swiper-container-rtl .swiper-button-next.swiper-button-white {
+      background-image: url("images/prev_white.svg");
+    }
+    .swiper-button-next,
+    .swiper-container-rtl .swiper-button-prev {
+      background-image: url("images/next.svg");
+      right: 10px;
+      left: auto;
+    }
+    .swiper-button-next.swiper-button-black,
+    .swiper-container-rtl .swiper-button-prev.swiper-button-black {
+      background-image: url("images/next_black.svg");
+    }
+    .swiper-button-next.swiper-button-white,
+    .swiper-container-rtl .swiper-button-prev.swiper-button-white {
+      background-image: url("images/next_white.svg");
+    }
+    .swiper-lazy-preloader:after {
+      background-image: url("images/preloader.svg");
+    }
+    .swiper-lazy-preloader-white:after {
+      background-image: url("images/preloader_white.svg");
+    }
 
-      .swiper-button-prev,
-      .swiper-container-rtl .swiper-button-next {
-        background-image: url("images/prev.svg");
-        left: 10px;
-        right: auto;
-      }
-      .swiper-button-prev.swiper-button-black,
-      .swiper-container-rtl .swiper-button-next.swiper-button-black {
-        background-image: url("images/prev_black.svg");
-      }
-      .swiper-button-prev.swiper-button-white,
-      .swiper-container-rtl .swiper-button-next.swiper-button-white {
-        background-image: url("images/prev_white.svg");
-      }
-      .swiper-button-next,
-      .swiper-container-rtl .swiper-button-prev {
-        background-image: url("images/next.svg");
-        right: 10px;
-        left: auto;
-      }
-      .swiper-button-next.swiper-button-black,
-      .swiper-container-rtl .swiper-button-prev.swiper-button-black {
-        background-image: url("images/next_black.svg");
-      }
-      .swiper-button-next.swiper-button-white,
-      .swiper-container-rtl .swiper-button-prev.swiper-button-white {
-        background-image: url("images/next_white.svg");
-      }
-      .swiper-lazy-preloader:after {
-        background-image: url("images/preloader.svg");
-      }
-      .swiper-lazy-preloader-white:after {
-        background-image: url("images/preloader_white.svg");
-      }
+    /* end @TODO */
 
-      /* end @TODO */
+    .swiper-container {
+      width: 500px;
+      height: 300px;
+      margin: 20px auto;
+    }
 
-      .swiper-container {
-        width: 500px;
-        height: 300px;
-        margin: 20px auto;
-      }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
 
-      .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
 
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-      }
+  </style>
 
-    </style>
+  <template>
 
     <div class="swiper-container" id="swiper">
       <div class="swiper-wrapper" id="wrapper">
@@ -105,9 +106,20 @@
 
   </template>
 
+</dom-module>
+
   <script>
 
     Polymer({
+      is: 'swiper-slider',
+
+      properties: {
+        next: Boolean,
+        prev: Boolean,
+        scrollbar: Boolean,
+        pagination: Boolean
+      },
+
       ready: function() {
         this.nextEl = document.createElement('div');
         this.prevEl = document.createElement('div');
@@ -119,6 +131,7 @@
         this.paginationEl.className = 'swiper-pagination';
         this.slides = this.querySelectorAll("slide");
       },
+
       domReady: function() {
         var swiper = new Swiper( this.$.swiper, {
           nextButton: this.nextEl,
@@ -126,6 +139,7 @@
           spaceBetween: 30
         });
       },
+
       attached: function() {
         var i = 0,
           result = '';
