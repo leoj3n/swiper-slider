@@ -30,24 +30,24 @@
 
     <script>
 
-      var myEl = document.querySelector('swiper-slider'),
-        fake = new Fake(),
-        slides;
-
       suite( '<swiper-slider>', function() {
 
+        var slideEls,
+          swiperEl = document.querySelector('swiper-slider');
+          fake = new Fake();
+
         suiteSetup(function() {
-          slides = document.querySelectorAll('swiper-slider /deep/ div.swiper-slide');
+          slideEls = document.querySelectorAll('swiper-slider /deep/ div.swiper-slide');
         });
 
         test( 'defines the "slides" property', function() {
-          assert.equal( myEl.slides.length, 3 );
+          assert.equal( swiperEl.slides.length, 3 );
         });
 
         test( 'creates "swiper-slide" div and applies background', function() {
           assert.equal(
-            slides[2].style.backgroundImage, 
-            'url(' + myEl.slides.item(2).getAttribute('background') + ')'
+            slideEls[2].style.backgroundImage, 
+            'url(' + swiperEl.slides.item(2).getAttribute('background') + ')'
           );
         });
 
@@ -55,8 +55,8 @@
           var nextBtn = document.querySelector('swiper-slider /deep/ div.swiper-button-next');
           fake.downOnNode( nextBtn, function() {
             fake.upOnNode(nextBtn);
-            var active = document.querySelector('swiper-slider /deep/ .swiper-slide-active');
-            assert.equal( active.innerHTML, slides[1].innerHTML );
+            var active = document.querySelector('swiper-slider /deep/ div.swiper-slide-active');
+            assert.equal( active.innerHTML, slideEls[1].innerHTML );
           });
         });
 
