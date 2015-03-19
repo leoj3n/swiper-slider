@@ -1,38 +1,70 @@
 <!doctype html>
+
 <html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <title>swiper-slider</title>
 
-  <script src="../../webcomponentsjs/webcomponents.min.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
+  <head>
+    
+    <meta charset="UTF-8">
 
-  <link rel="import" href="../swiper-slider.html">
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-  <swiper-slider next prev>
-    <slide>NO. ONE</slide>
-    <slide>ITEM TWO</slide>
-    <slide background="http://lorempixel.com/800/600">THE THIRD</slide>
-  </swiper-slider>
+    <title>swiper-slider</title>
 
-  <script>
-    var myEl = document.querySelector('swiper-slider');
+    <script src="../../webcomponentsjs/webcomponents.min.js"></script>
 
-    suite('<swiper-slider>', function() {
+    <script src="../../web-component-tester/browser.js"></script>
 
-      test('defines the "slides" property', function() {
-        assert.equal(myEl.slides, []);
+    <script src="../../polymer-gestures/test/js/fake.js"></script>
+
+    <link rel="import" href="../swiper-slider.html">
+
+  </head>
+
+  <body>
+
+    <swiper-slider next prev>
+      <slide>NO. ONE</slide>
+      <slide>ITEM TWO</slide>
+      <slide background="http://lorempixel.com/800/600">THE THIRD</slide>
+    </swiper-slider>
+
+    <script>
+
+      var myEl = document.querySelector('swiper-slider'),
+        fake = new Fake(),
+        slides;
+
+      suite( '<swiper-slider>', function() {
+
+        suiteSetup(function() {
+          slides = document.querySelectorAll('swiper-slider /deep/ div.swiper-slide');
+        });
+
+        test( 'defines the "slides" property', function() {
+          assert.equal( myEl.slides.length, 3 );
+        });
+
+        test( 'creates "swiper-slide" div and applies background', function() {
+          assert.equal(
+            slides[2].style.backgroundImage, 
+            'url(' + myEl.slides.item(2).getAttribute('background') + ')'
+          );
+        });
+
+        test( 'tapping next button progresses to next slide', function() {
+          var nextBtn = document.querySelector('swiper-slider /deep/ div.swiper-button-next');
+          fake.downOnNode( nextBtn, function() {
+            fake.upOnNode(nextBtn);
+            var active = document.querySelector('swiper-slider /deep/ .swiper-slide-active');
+            assert.equal( active.innerHTML, slides[1].innerHTML );
+          });
+        });
+
       });
 
-      test('applies the background', function() {
-        assert.equal(myEl.slides[2].style.backgroundImage, 'http://lorempixel.com/800/600');
-      });
+    </script>
 
-    });
-  </script>
+  </body>
 
-</body>
 </html>
+

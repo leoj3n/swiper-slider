@@ -99,7 +99,7 @@
 
     <div class="swiper-container" id="swiper">
       <div class="swiper-wrapper" id="wrapper">
-        <content id="content"></content>
+        <content select="slide"></content>
       </div>
     </div>
 
@@ -131,7 +131,7 @@
           result = '';
 
         for ( ; i < this.slides.length; i++ ) {
-          var slide = this.slides[ i ],
+          var slide = this.slides.item(i),
             hasHTML = ( slide.innerHTML !== '' ),
             hasBackground = slide.hasAttribute('background');
 

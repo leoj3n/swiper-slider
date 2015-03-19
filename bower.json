@@ -23,6 +23,7 @@
     "polymer": "Polymer/polymer#^0.5.4"
   },
   "devDependencies": {
-    "web-component-tester": "*"
+    "web-component-tester": "*",
+    "polymer-gestures": "Polymer/polymer-gestures#~0.5.5"
   }
 }
