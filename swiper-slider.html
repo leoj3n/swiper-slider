@@ -17,6 +17,8 @@
 @homepage http://leoj3n.github.com/swiper-slider
 -->
 
+<script src="../polymer/polymer.html"></script>
+
 <script src="../swiper/dist/js/swiper.min.js"></script>
 
 <polymer-element name="swiper-slider">
@@ -70,15 +72,15 @@
       /* end @TODO */
 
       .swiper-container {
-        width: 500px;
-        height: 300px;
-        margin: 20px auto;
+        width: 100%;
+        height: 600px;
       }
 
       .swiper-slide {
         text-align: center;
         font-size: 18px;
         background: #fff;
+        background-size: cover;
 
         /* Center slide text vertically */
         display: -webkit-box;
@@ -123,7 +125,7 @@
         var swiper = new Swiper( this.$.swiper, {
           nextButton: this.nextEl,
           prevButton: this.prevEl,
-          spaceBetween: 30
+          spaceBetween: 0
         });
       },
       attached: function() {
