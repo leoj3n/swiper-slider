@@ -30,37 +30,31 @@
 
     <script>
 
+      var fake = new Fake();
+
       suite( '<swiper-slider>', function() {
 
-        var slideEls,
-          swiperEl = document.querySelector('swiper-slider');
-          fake = new Fake();
+        var slideEls, swiperEl = document.querySelector('swiper-slider');
 
         suiteSetup(function() {
-          slideEls = document.querySelectorAll('swiper-slider /deep/ div.swiper-slide');
-        });
-
-        test( 'defines the "slides" property', function() {
-          assert.equal( swiperEl.slides.length, 3 );
+          slideEls = document.querySelectorAll('swiper-slider /deep/ .swiper-slide');
         });
 
         test( 'creates "swiper-slide" div and applies background', function() {
           assert.equal(
-            slideEls[2].style.backgroundImage, 
-            'url(' + swiperEl.slides.item(2).getAttribute('background') + ')'
+            slideEls.item(2).style.backgroundImage, 
+            'url(http://lorempixel.com/800/600)'
           );
         });
 
-        /*
         test( 'tapping next button progresses to next slide', function() {
-          var nextBtn = document.querySelector('swiper-slider /deep/ div.swiper-button-next');
+          var nextBtn = document.querySelector('swiper-slider /deep/ .swiper-button-next');
           fake.downOnNode( nextBtn, function() {
             fake.upOnNode(nextBtn);
-            var active = document.querySelector('swiper-slider /deep/ div.swiper-slide-active');
-            assert.equal( active.innerHTML, slideEls[1].innerHTML );
+            var active = document.querySelector('swiper-slider /deep/ .swiper-slide-active');
+            assert.equal( active.innerHTML, slideEls.item(1).innerHTML );
           });
         });
-        */
 
       });
 

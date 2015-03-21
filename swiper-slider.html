@@ -17,8 +17,6 @@
 @homepage http://leoj3n.github.com/swiper-slider
 -->
 
-<script src="../polymer/polymer.html"></script>
-
 <script src="../swiper/dist/js/swiper.min.js"></script>
 
 <polymer-element name="swiper-slider">
@@ -101,7 +99,7 @@
 
     <div class="swiper-container" id="swiper">
       <div class="swiper-wrapper" id="wrapper">
-        <content select="slide"></content>
+        <!-- slides -->
       </div>
     </div>
 
@@ -119,7 +117,6 @@
         this.prevEl.className = 'swiper-button-prev';
         this.scrollbarEl.className = 'swiper-scrollbar';
         this.paginationEl.className = 'swiper-pagination';
-        this.slides = this.querySelectorAll("slide");
       },
       domReady: function() {
         var swiper = new Swiper( this.$.swiper, {
@@ -129,32 +126,19 @@
         });
       },
       attached: function() {
-        var i = 0,
-          result = '';
+        var slide;
 
-        for ( ; i < this.slides.length; i++ ) {
-          var slide = this.slides.item(i),
-            hasHTML = ( slide.innerHTML !== '' ),
-            hasBackground = slide.hasAttribute('background');
+        while ( this.children.length ) {
+          slide = this.children.item(0);
 
-          if ( hasHTML || hasBackground ) {
-            result += '<div class="swiper-slide"';
+          slide.className += ' swiper-slide';
 
-            if ( hasBackground ) {
-              result += ' style="background-image:url(' + slide.getAttribute('background') + ');"';
-            }
-
-            result += '>';
-
-            if ( hasHTML ) {
-              result += slide.innerHTML;
-            }
-
-            result += '</div>';
+          if ( slide.hasAttribute('background') ) {
+            slide.style.backgroundImage = 'url(' + slide.getAttribute('background') + ')';
           }
-        }
 
-        this.injectBoundHTML( result, this.$.wrapper );
+          this.$.wrapper.appendChild(slide);
+        }
 
         if ( this.hasAttribute('next') ) {
           this.$.swiper.appendChild(this.nextEl);
